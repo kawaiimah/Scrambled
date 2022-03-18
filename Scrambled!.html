@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <style>
+      html, body {
+          overflow: hidden;
+      }
+
+      #top, #bottom {
+          text-align: center;
+      }
+
+      .board {
+          width: 100%;
+          max-width: 600px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .row {
+          display: flex;
+          justify-content: center;
+          margin: 3px;
+      }
+
+      .cell {
+          font-size: 40px;
+          font-weight: bold;
+          border: 1px solid;
+          border-radius: 10px;
+          width: 53px;
+          height: 53px;
+          margin: 2px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: default;
+          user-select: none;
+      }
+
+      .grey {
+          color: lightgray;
+      }
+
+      .button {
+          font-size: 25px;
+          border: 1px solid;
+          border-radius: 10px;
+          width: 153px;
+          height: 43px;
+          margin: 2px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          user-select: none;
+      }
+    </style>
+    <title>Scrambled!</title>
+  </head>
+  <body>
+      <h1 id="top">Scrambled!</h1>
+      <hr>
+      <div id="display">
+  </body>
+  <script>
+    window.onload = function () {
+      words = ['MISSION', 'HANDLE', 'DRIVER', 'DEFEND', 'EQUAL', 'NUMBER', 'SWEEP', 'CHURCH', 'ARGUE', 'BUTTON', 'MISSILE', 'EXPOSE', 'REDUCE', 'MONTH', 'ONION', 'RAPIDLY', 'FRONT', 'POCKET', 'NEARBY', 'EXPAND', 'FAULT', 'TOWARDS', 'PIANO', 'DRIVE', 'CHIEF', 'INFANT', 'EVENT', 'PHONE', 'RECALL', 'WEAPON', 'WHEREAS', 'RIVER', 'TUNNEL', 'GRADE', 'TENSION', 'RETIRE', 'CAUSE', 'ATTACH', 'CHOICE', 'MARGIN', 'USUAL', 'CLASS', 'QUOTE', 'BECAUSE', 'SPRING', 'IMPLY', 'NORTH', 'ALWAYS', 'TARGET', 'ASSIST', 'THEATER', 'BETWEEN', 'ACTRESS', 'CAREER', 'CHILD', 'TONIGHT', 'HOUSING', 'UPPER', 'COMPARE', 'SILVER', 'ATTACK', 'ENTER', 'QUICKLY', 'MASTER', 'INVOLVE', 'PEPPER', 'TESTING', 'PROUD', 'RECEIVE', 'CRITIC', 'DEFENSE', 'TOTAL', 'CRUCIAL', 'SCENE', 'PROMPT', 'THOUGHT', 'STORY', 'HUNGRY', 'FOREIGN', 'THOSE', 'SMALL', 'SCREEN', 'PAYMENT', 'FOREVER', 'THROUGH', 'CENTURY', 'TIGHT', 'ABUSE', 'FEATURE', 'WATCH', 'STREET', 'DEVELOP', 'FINISH', 'HORSE', 'SOUND', 'TRAIL', 'DRAFT', 'STATE', 'RATIO', 'THERAPY', 'EMPTY', 'COFFEE', 'ATTEND', 'READING', 'COUNTRY', 'DELIVER', 'STRING', 'LATER', 'MINUTE', 'FARMER', 'ASSIGN', 'FINDING', 'MEMBER', 'FACTOR', 'POLICY', 'PROTEST', 'SOMEHOW', 'VARIETY', 'INITIAL', 'GESTURE', 'SYMPTOM', 'BRAND', 'COURT', 'REPLACE', 'SALARY', 'INSIST', 'SHELTER', 'LARGE', 'WELFARE', 'DESERVE', 'CONCEPT', 'ILLEGAL', 'CLOSER', 'REMIND', 'STOCK', 'MIDDLE', 'TERMS', 'CHICKEN', 'HEALTHY', 'WEIGH', 'CLIENT', 'TRACK', 'REJECT', 'PROTEIN', 'MYSELF', 'FLIGHT', 'PROFILE', 'CLEAN', 'SEIZE', 'MAYBE', 'KNOCK', 'HUSBAND', 'JUICE', 'CLOUD', 'SUFFER', 'WASTE', 'EARLY', 'KITCHEN', 'ANOTHER', 'EMERGE', 'SUPPLY', 'SURVEY', 'STORM', 'POWER', 'LISTEN', 'GROWING', 'CONFIRM', 'METER', 'SOLDIER', 'CHARITY', 'CREAM', 'ABSENCE', 'DOZEN', 'CABLE', 'APART', 'TROOP', 'FISHING', 'RADIO', 'MEETING', 'EXAMPLE', 'SHELF', 'ANYMORE', 'JOINT', 'METAL', 'SPACE', 'GENTLY', 'FASHION', 'FRUIT', 'WRITE', 'ROUTE', 'LIVING', 'WHILE', 'BROWN', 'RELATE', 'CEILING', 'EITHER', 'STEEL', 'HUNDRED', 'TOWER', 'SCORE', 'INSTEAD', 'BELIEVE', 'ACCEPT', 'EASILY', 'EFFECT', 'VENTURE', 'MEANING', 'INDEX', 'POVERTY', 'DERIVE', 'VALUE', 'BREATH', 'GENERAL', 'FAMOUS', 'ALTER', 'DELAY', 'SHAKE', 'TEACH', 'LAWYER', 'RADICAL', 'NAKED', 'BUYER', 'CLEARLY', 'RECIPE', 'DOUBLE', 'AFFECT', 'HORIZON', 'ABOUT', 'DESTROY', 'SPEND', 'RETAIN', 'GUILTY', 'CRISIS', 'COUNTER', 'PITCH', 'CARRIER', 'WITHOUT', 'ENHANCE', 'ETHICS', 'CREATE', 'EXPERT', 'WANDER', 'GIFTED', 'CONNECT', 'MOVIE', 'PRIOR', 'DINING', 'PARKING', 'PLEASE', 'RESOLVE', 'HUMOR', 'ADMIT', 'CUSTOM', 'BILLION', 'ABOVE', 'FENCE', 'IMAGE', 'CAMERA', 'HABIT', 'ACCESS', 'STREAM', 'AROUND', 'MILLION', 'BLOOD', 'SHORTLY', 'MORAL', 'SUICIDE', 'VALLEY', 'MOUNT', 'PERFECT', 'MAINLY', 'MURDER', 'STICK', 'FOREST', 'DRAWING', 'DREAM', 'VEHICLE', 'ASSURE', 'NOTHING', 'SPEAK', 'EFFORT', 'MENTAL', 'FORWARD', 'DEEPLY', 'BREAD', 'STRETCH', 'CHAIN', 'NOISE', 'NUCLEAR', 'CLUSTER', 'MOTOR', 'SENSE', 'BROTHER', 'ABILITY', 'SPEAKER', 'UNDER', 'WORKER', 'FORCE', 'CLOTHES', 'SPEED', 'AWARD', 'OUGHT', 'WEEKLY', 'EXTENT', 'DISPUTE', 'BRING', 'GUARD', 'REGION', 'VILLAGE', 'INVEST', 'SETTING', 'COUNCIL', 'SPREAD', 'CAPTAIN', 'COLLEGE', 'ALCOHOL', 'FREEDOM', 'UNION', 'FIRST', 'WELCOME', 'BLOCK', 'LOWER', 'IMPROVE', 'SOURCE', 'ROUGHLY', 'EXPRESS', 'BUNCH', 'RESIST', 'TITLE', 'THEORY', 'ASSESS', 'TACTIC', 'COACH', 'REMAIN', 'FOUND', 'DECLARE', 'PROPER', 'DINNER', 'HIGHLY', 'BORDER', 'LATTER', 'MUSCLE', 'SOCIETY', 'COUNT', 'ALMOST', 'LIGHT', 'COURSE', 'BEDROOM', 'MOSTLY', 'FOURTH', 'GRAND', 'GRANT', 'WATER', 'REPEAT', 'SURVIVE', 'COMPOSE', 'PREVENT', 'ATTEMPT', 'ELDERLY', 'PRIVATE', 'VIDEO', 'CURRENT', 'MODEL', 'CRAFT', 'FINGER', 'KNIFE', 'EDITION', 'ESCAPE', 'VERSION', 'ADMIRE', 'CENTER', 'YELLOW', 'RARELY', 'SCREAM', 'BATTLE', 'RURAL', 'POLICE', 'PRAYER', 'BLAME', 'SQUEEZE', 'CLIMATE', 'GREAT', 'HEALTH', 'WINDOW', 'FIGHTER', 'UNDERGO', 'UNIQUE', 'SIMILAR', 'DEATH', 'CONTROL', 'SUSPECT', 'LARGELY', 'ASIDE', 'BESIDES', 'TWICE', 'COMPETE', 'SINGLE', 'FIFTEEN', 'RESPOND', 'WOUND', 'PLAYER', 'FINANCE', 'CONTACT', 'RACIAL', 'SCIENCE', 'FLOAT', 'DESIGN', 'ENGAGE', 'BENEFIT', 'REGIME', 'EASTERN', 'ADDRESS', 'NETWORK', 'WEALTH', 'OPENING', 'SIMPLE', 'ASSERT', 'DIVORCE', 'SHADE', 'SUMMER', 'ARISE', 'ARREST', 'CHEST', 'FIBER', 'PRICE', 'WHEEL', 'GLOBAL', 'WITHIN', 'THREE', 'OPTION', 'PRODUCE', 'VITAL', 'CHEESE', 'FIFTH', 'THIRTY', 'THANKS', 'MAJOR', 'CLEAR', 'SHELL', 'SUPPOSE', 'VIOLENT', 'SELECT', 'RAPID', 'TOUGH', 'CABINET', 'POETRY', 'DEMAND', 'SETTLE', 'DEBATE', 'PROVIDE', 'SHADOW', 'SUCCEED', 'READY', 'GATHER', 'REVEAL', 'HEAVY', 'CONCERN', 'BOMBING', 'SUGGEST', 'PENALTY', 'BRICK', 'CHARGE', 'HIMSELF', 'CONTEST', 'PASSAGE', 'SENIOR', 'DECIDE', 'BREAST', 'BEING', 'SHRUG', 'STRIP', 'PHOTO', 'MAKER', 'SEXUAL', 'DEPUTY', 'AIRPORT', 'ROUND', 'REQUEST', 'CAMPUS', 'DIGITAL', 'SUMMIT', 'UNLESS', 'FANTASY', 'CIRCLE', 'SECURE', 'WINNER', 'SEVEN', 'SIGHT', 'PROMOTE', 'FATHER', 'HOTEL', 'BEGIN', 'RESULT', 'FINALLY', 'CLIMB', 'PLANE', 'BIRTH', 'CRAZY', 'REPORT', 'PRIEST', 'SHARP', 'ACCOUNT', 'ISSUE', 'MARRIED', 'EXTRA', 'CHECK', 'WEALTHY', 'AMONG', 'TRAGEDY', 'DIRECT', 'ADAPT', 'DISTANT', 'PREDICT', 'ADVANCE', 'PRIDE', 'ENERGY', 'AWARE', 'AFFAIR', 'LAUNCH', 'BATTERY', 'COMMAND', 'URBAN', 'AMAZING', 'SAMPLE', 'LABEL', 'COLUMN', 'CONTENT', 'TENNIS', 'LAUGH', 'SAFETY', 'SUGAR', 'EARTH', 'BRIDGE', 'CHANGE', 'SHOULD', 'ALREADY', 'MENTION', 'GRAIN', 'AGENDA', 'STONE', 'ARTICLE', 'MM-HMM', 'ARRIVE', 'SHALL', 'SLIDE', 'STAGE', 'BARRIER', 'CHASE', 'THEIR', 'WORLD', 'LEVEL', 'FREEZE', 'CHOOSE', 'INNER', 'PORCH', 'UNKNOWN', 'VISION', 'EXACT', 'MUSIC', 'RUNNING', 'TROUBLE', 'INCOME', 'ANIMAL', 'HOLIDAY', 'PROOF', 'FACTORY', 'DETAIL', 'BASIS', 'HEIGHT', 'RESPECT', 'SOUTH', 'ENOUGH', 'EVENING', 'SLIGHT', 'LEGEND', 'WORKS', 'CAPITAL', 'EXTREME', 'DEPEND', 'COTTON', 'VIRUS', 'START', 'JUDGE', 'ENTRY', 'CRACK', 'CONSIST', 'MINOR', 'PATIENT', 'THESE', 'TIRED', 'COLLECT', 'SEVERAL', 'BEACH', 'COMBINE', 'STATUS', 'FLESH', 'SUSTAIN', 'ACTIVE', 'PARTY', 'CLASSIC', 'BURDEN', 'RHYTHM', 'RIFLE', 'SECTOR', 'EXCEPT', 'HONEST', 'FORMULA', 'RETURN', 'PRINT', 'SALES', 'SERVICE', 'COULD', 'HEART', 'BRANCH', 'GLASS', 'SQUARE', 'OTHER', 'UNLIKE', 'STRESS', 'CIVIL', 'REALIZE', 'DISPLAY', 'RELAX', 'STATION', 'STUPID', 'MERELY', 'WEEKEND', 'NORMAL', 'ASLEEP', 'JOURNAL', 'BOARD', 'CHAMBER', 'PAINT', 'ALONE', 'RESTORE', 'LIKELY', 'YOURS', 'CLOSE', 'AIRLINE', 'LEMON', 'DIFFER', 'GROCERY', 'DECLINE', 'COOKIE', 'CURIOUS', 'ACCUSE', 'FUTURE', 'TRIBE', 'LAYER', 'INFORM', 'THROW', 'EXACTLY', 'DESIRE', 'QUIET', 'WILLING', 'MARKET', 'DOCTOR', 'FIFTY', 'QUICK', 'ORANGE', 'ANYONE', 'SMOKE', 'OBJECT', 'CHEEK', 'PAUSE', 'PATTERN', 'CERTAIN', 'BRAIN', 'EXPENSE', 'FABRIC', 'FIGHT', 'GUIDE', 'ANSWER', 'LEAST', 'ANGRY', 'GARLIC', 'TERROR', 'MOMENT', 'EDITOR', 'LOOSE', 'BESIDE', 'ARRANGE', 'PRETEND', 'UNUSUAL', 'WORRIED', 'BROAD', 'DEFEAT', 'OCCUPY', 'REACH', 'ACTOR', 'WINTER', 'DECADE', 'COUCH', 'HAPPEN', 'FRIEND', 'STRONG', 'STUDIO', 'USEFUL', 'MONEY', 'STAND', 'TOTALLY', 'APPROVE', 'LITTLE', 'FEMALE', 'NATION', 'RELIEF', 'FORMAL', 'SAVING', 'TRULY', 'BOTTLE', 'COLOR', 'MESSAGE', 'STABLE', 'BARELY', 'ACQUIRE', 'TRIAL', 'VICTORY', 'PROPOSE', 'APPLY', 'OFTEN', 'REVENUE', 'DEGREE', 'OFFICER', 'OBTAIN', 'BELIEF', 'FAILURE', 'ONGOING', 'FUNDING', 'NATURAL', 'CAPABLE', 'SECTION', 'SUBJECT', 'IGNORE', 'ARTIST', 'MANAGE', 'LEGACY', 'TESTIFY', 'HARDLY', 'MOUSE', 'UNCLE', 'PROGRAM', 'EXPLAIN', 'PATCH', 'COUPLE', 'AFTER', 'BUDGET', 'ADVICE', 'LEAGUE', 'FIELD', 'GRASS', 'CANCER', 'GENDER', 'FULLY', 'VARIOUS', 'ACTUAL', 'ILLNESS', 'SWITCH', 'QUARTER', 'SHARE', 'BLACK', 'DETECT', 'KILLER', 'SEARCH', 'SECRET', 'SHEET', 'LEGAL', 'OCEAN', 'ANGLE', 'WORKING', 'PROVE', 'SAUCE', 'SMOOTH', 'INSIGHT', 'AVOID', 'LAWSUIT', 'CLOSELY', 'LENGTH', 'MATTER', 'HOUSE', 'HABITAT', 'MARRY', 'CORRECT', 'GARAGE', 'CYCLE', 'STEADY', 'COVER', 'FAIRLY', 'UNTIL', 'EXPLODE', 'SERIES', 'ADOPT', 'STARE', 'SERVE', 'EAGER', 'FINAL', 'SINCE', 'PERSON', 'SUBMIT', 'COMEDY', 'SECOND', 'JUNIOR', 'LIMIT', 'APPLE', 'INSIDE', 'SPIRIT', 'FRESH', 'WHOSE', 'SHOCK', 'EXIST', 'WESTERN', 'NEVER', 'ARRIVAL', 'SCRIPT', 'MEMORY', 'PIECE', 'CULTURE', 'PURSUE', 'BENCH', 'HONEY', 'ABROAD', 'POWDER', 'PRODUCT', 'DEFINE', 'REFUGEE', 'THIRD', 'IDEAL', 'GALAXY', 'THINK', 'CHART', 'MEASURE', 'VIRTUE', 'HOWEVER', 'ELECT', 'AMOUNT', 'CAREFUL', 'WRITING', 'PREFER', 'REACT', 'ANYWAY', 'CARBON', 'MISTAKE', 'SISTER', 'STAIR', 'VISIBLE', 'READER', 'RECENT', 'MIRACLE', 'EVOLVE', 'MOTION', 'STORE', 'STUFF', 'MEDIUM', 'NEARLY', 'SOMEONE', 'COOKING', 'TRICK', 'SCHOLAR', 'DEPICT', 'CROWD', 'SURFACE', 'BLIND', 'INTEND', 'GROUP', 'SMILE', 'CATCH', 'SCARED', 'IMPOSE', 'DISMISS', 'POUND', 'PARTNER', 'PROMISE', 'FEELING', 'PANEL', 'LESSON', 'PRIMARY', 'FAVOR', 'ROUTINE', 'CORNER', 'FLAME', 'OUTSIDE', 'JACKET', 'FIGURE', 'WARNING', 'ENABLE', 'FORMER', 'ITSELF', 'ACTION', 'ADVISE', 'AGENCY', 'FOLLOW', 'OFFICE', 'PICTURE', 'SUPPORT', 'HERSELF', 'HAPPY', 'HELLO', 'SWING', 'ETHNIC', 'EXCEED', 'VOTER', 'COMPANY', 'VESSEL', 'CHAIR', 'POSSESS', 'GROUND', 'FLAVOR', 'ASSET', 'LEAVE', 'MORNING', 'WHITE', 'TRACE', 'ATHLETE', 'STUDENT', 'FALSE', 'REFLECT', 'DIRTY', 'BELONG', 'DRAMA', 'ANCIENT', 'SURELY', 'GRAVE', 'RECRUIT', 'CENTRAL', 'WOMAN', 'FAITH', 'PERFORM', 'OPINION', 'TICKET', 'GOLDEN', 'PRISON', 'WONDER', 'EXTEND', 'IMPRESS', 'FLOOR', 'WORTH', 'QUITE', 'TOOTH', 'NATURE', 'BREAK', 'DISCUSS', 'GUESS', 'PLATE', 'PROJECT', 'HEAVEN', 'PUBLISH', 'MOTHER', 'ABANDON', 'PAPER', 'TREND', 'WIDELY', 'DIVERSE', 'VERSUS', 'CONSUME', 'SHORE', 'BADLY', 'SCALE', 'ALBUM', 'ESSAY', 'ESTATE', 'RELEASE', 'VICTIM', 'CARRY', 'DANCE', 'INSPIRE', 'BETTER', 'WOULD', 'SHOWER', 'SPEECH', 'EXAMINE', 'PERHAPS', 'GUEST', 'TOWARD', 'TASTE', 'EXPLORE', 'PILOT', 'BECOME', 'PHRASE', 'MAYOR', 'CLOCK', 'FEWER', 'TABLE', 'DEFICIT', 'STYLE', 'DIVIDE', 'RECOVER', 'AGENT', 'MIGHT', 'AFFORD', 'ELEMENT', 'SMELL', 'AUTHOR', 'APPEAR', 'PUBLIC', 'REGULAR', 'EIGHT', 'SACRED', 'UNIFORM', 'AFRAID', 'MEDICAL', 'REPLY', 'EQUALLY', 'COMPLEX', 'BUILD', 'ONLINE', 'ABSORB', 'ASSAULT', 'DEVOTE', 'ADULT', 'CLINIC', 'ANALYZE', 'VISITOR', 'SPECIES', 'NURSE', 'NEWLY', 'SHOUT', 'INCLUDE', 'INJURY', 'REALLY', 'BLANKET', 'MYSTERY', 'NIGHT', 'WEATHER', 'PLASTIC', 'CLAIM', 'PEACE', 'CABIN', 'LOCAL', 'DEPTH', 'ALONG', 'SKILL', 'TREATY', 'ELITE', 'FORGET', 'SORRY', 'HEARING', 'BRIEFLY', 'WHICH', 'CHAPTER', 'WEIGHT', 'PARENT', 'COMMENT', 'REFER', 'ROUGH', 'DISEASE', 'ARMED', 'TRADE', 'SOLVE', 'TOPIC', 'ORGANIC', 'CAPTURE', 'FORTUNE', 'TOURIST', 'SYMBOL', 'CROSS', 'TYPICAL', 'SINGER', 'EXHIBIT', 'BEFORE', 'OWNER', 'QUALITY', 'DEVICE', 'REMOVE', 'HANDFUL', 'ISLAND', 'OVERALL', 'FAMILY', 'ANNUAL', 'CHANCE', 'NOTICE', 'SCHOOL', 'LEATHER', 'STAFF', 'SUCCESS', 'THING', 'SMART', 'LIBRARY', 'BRIEF', 'VETERAN', 'ALLOW', 'ANALYST', 'EXPECT', 'SOLID', 'IMPACT', 'SPORT', 'OUTCOME', 'AWFUL', 'EDUCATE', 'FLOWER', 'NOVEL', 'NEITHER', 'SHORT', 'THANK', 'SENATOR', 'SIMPLY', 'COMMIT', 'OTHERS', 'ECONOMY', 'USUALLY', 'INDEED', 'STEAL', 'PROFIT', 'EVERY', 'PEOPLE', 'TISSUE', 'WHISPER', 'THOUGH', 'CONVERT', 'PERIOD', 'JUSTIFY', 'MONITOR', 'BEYOND', 'PACKAGE', 'KILLING', 'DEALER', 'SUDDEN', 'INTENSE', 'LUCKY', 'TOMATO', 'OFFENSE', 'QUIETLY', 'AGAINST', 'COMFORT', 'MEDIA', 'LEADER', 'EMPLOY', 'FUNERAL', 'BELOW', 'ENGINE', 'TREAT', 'STROKE', 'SHINE', 'GARDEN', 'WHOLE', 'BARREL', 'BEAUTY', 'LUNCH', 'SEASON', 'HISTORY', 'LABOR', 'SHIRT', 'SESSION', 'TRAFFIC', 'GHOST', 'OPPOSE', 'NOBODY', 'SEGMENT', 'ACHIEVE', 'FICTION', 'RATING', 'PREPARE', 'MAKEUP', 'COURAGE', 'CONTEXT', 'REFUSE', 'THERE', 'WISDOM', 'BOTTOM', 'GIANT', 'SLICE', 'GROWTH', 'MOUTH', 'ENTIRE', 'BASKET', 'OCCUR', 'JUSTICE', 'MODERN', 'WRONG', 'MUTUAL', 'AHEAD', 'SURGERY', 'MODEST', 'MANAGER', 'BRIGHT', 'ENEMY', 'PLENTY', 'REFORM', 'ORDER', 'WHETHER', 'PLACE', 'WEDDING', 'NERVOUS', 'ADJUST', 'PRIVACY', 'TEACHER', 'PORTION', 'STUDY', 'VIOLATE', 'MATCH', 'MUSICAL', 'PROTECT', 'LEARN', 'NATIVE', 'TWENTY', 'VISIT', 'POTATO', 'POPULAR', 'SIGNAL', 'BULLET', 'PRIME', 'QUALIFY', 'WRITER', 'UNABLE', 'GALLERY', 'APPOINT', 'SLOWLY', 'COUNTY', 'SEVERE', 'REALITY', 'BORROW', 'BREATHE', 'TODAY', 'PAINTER', 'RECORD', 'TOBACCO', 'ATTRACT', 'GLANCE', 'PORTRAY', 'REMOTE', 'DAMAGE', 'APPEAL', 'MANNER', 'FITNESS', 'DANGER', 'SALAD', 'COAST', 'STRANGE', 'SERIOUS', 'MASSIVE', 'SCOPE', 'TRAVEL', 'OBVIOUS', 'ALIVE', 'THREAT', 'SOLAR', 'FORTH', 'E-MAIL', 'THICK', 'CONTAIN', 'YOUNG', 'BRUSH', 'BEHIND', 'MUSEUM', 'SPECIAL', 'FRAME', 'ADVISER', 'CRASH', 'SLEEP', 'TWELVE', 'LIMITED', 'UTILITY', 'PRESENT', 'HELPFUL', 'STORAGE', 'THEME', 'DRESS', 'PAINFUL', 'DESERT', 'DURING', 'STRIKE', 'IMAGINE', 'AGREE', 'GLOVE', 'CHANNEL', 'SHAPE', 'ENSURE', 'LOVER', 'TRAIN', 'EMOTION', 'LIBERAL', 'CITIZEN', 'DOUBT', 'COUSIN', 'SOCCER', 'TONGUE', 'DESPITE', 'LETTER', 'AVERAGE', 'PURPOSE', 'THROAT', 'SILENCE', 'WOODEN', 'SHOOT', 'RANGE', 'LOCATE', 'POINT', 'BUTTER', 'HUNTING', 'OPERATE', 'RATHER', 'REASON', 'PRETTY', 'VIEWER', 'STAKE', 'SOCIAL', 'BASIC', 'VISUAL', 'GREEN', 'FOUNDER', 'CHEAP', 'METHOD', 'PLANET', 'DAILY', 'MACHINE', 'NERVE', 'WITNESS', 'NOTION', 'CONDUCT', 'FEDERAL', 'ACROSS', 'SCANDAL', 'GIVEN', 'CONCERT', 'SILENT', 'EPISODE', 'FUNNY', 'PARTLY', 'ORIGIN', 'BLADE', 'ANGER', 'INSTALL', 'TRUST', 'SCHEME', 'INVITE', 'OFFER', 'RESORT', 'SWEET', 'FACULTY', 'SYSTEM', 'INQUIRY', 'HEAVILY', 'NOWHERE', 'STILL', 'TRUTH', 'YOUTH', 'VOLUME', 'SUPER', 'SLAVE', 'NARROW', 'PROCESS', 'SWEAR', 'PERMIT', 'PROCEED', 'REVIEW', 'REGARD', 'SPLIT', 'HUMAN', 'JOURNEY', 'PLANT', 'PHASE', 'HORROR', 'OBSERVE', 'ERROR', 'AGAIN', 'ASSUME', 'ENJOY', 'CREDIT', 'HONOR', 'RAISE', 'PROBLEM', 'LEADING', 'TRUCK', 'REQUIRE', 'WHERE', 'FOCUS', 'EMBRACE', 'MIXTURE', 'GENETIC', 'RIGHT', 'VOICE', 'ANYBODY', 'DRINK', 'SATISFY', 'HIGHWAY', 'PASSION', 'SHIFT', 'BROKEN', 'ASPECT', 'CRIME', 'WORRY', 'ANXIETY', 'BOTHER', 'COMMON', 'LOVELY', 'YIELD', 'STOMACH', 'MIRROR', 'FELLOW', 'BENEATH', 'TOUCH', 'PRESS', 'BALANCE', 'TALENT', 'LICENSE', 'HUNTER']
+      startGame(0,words)
+    };
+
+    function randomWord(wordList) {
+      i = Math.floor(Math.random() * wordList.length)
+      return wordList[i]
+    }
+
+    function shuffle(secret) {
+      arr = secret.split("")
+      for (j = secret.length - 1; j > 0; j--) {
+        i = Math.floor(Math.random() * (j+1))
+        temp = arr[j]
+        arr[j] = arr[i]
+        arr[i] = temp
+      }
+      return arr.join("")
+    }
+
+    function startGame(streak, wordList) {
+
+      // initialise display containing board
+      display = document.getElementById("display")
+      board = document.createElement("div")
+      board.className = "board"
+
+      // initialise puzzle row, guess row, button row and streak message
+      secret = wordList[Math.floor(Math.random() * wordList.length)]
+      console.log("The secret word is " + secret)
+      puzzle = shuffle(secret)
+      row = document.createElement("div")
+      row.className = "row"
+      for (j = 0; j < puzzle.length; j++) {
+        cell = document.createElement("div")
+        cell.className = "cell"
+        cell.innerText = puzzle[j]
+        cell.id = "puzzle-" + j.toString()
+        row.append(cell)
+      }
+      board.append(row)
+
+      row = document.createElement("div")
+      row.className = "row"
+      for (j = 0; j < puzzle.length; j++) {
+        cell = document.createElement("div")
+        cell.className = "cell"
+        cell.id = "guess-" + j.toString()
+        row.append(cell)
+      }
+      board.append(row)
+
+      row = document.createElement("div")
+      row.className = "row"
+      cell = document.createElement("div")
+      cell.className = "button"
+      cell.innerText = "Shuffle"
+      cell.id = "shuffle"
+      row.append(cell)
+      cell = document.createElement("div")
+      cell.className = "button"
+      cell.classList.add("grey")
+      cell.innerText = "Clear"
+      cell.id = "clear"
+      row.append(cell)
+      board.append(row)
+      cell = document.createElement("div")
+      cell.className = "button"
+      cell.classList.add("grey")
+      cell.innerText = "Submit"
+      cell.id = "submit"
+      row.append(cell)
+      board.append(row)
+      
+      row = document.createElement("div")
+      row.className = "row"
+      row.id = "streak"
+      row.innerText = "Current Streak: " + streak.toString()
+      board.append(row)
+
+      display.append(board)
+
+      // set up event listeners for mouse clicks
+      pos = 0
+      guess = ""
+      giveup = 0
+      submitButton = document.getElementById("submit")
+      submitButton.addEventListener("click", function keyboardClick(event) {
+        giveup += 1
+        if (giveup > 4) {
+          alert("The secret word is " + secret)
+          display.innerHTML = ""
+          document.removeEventListener("keydown", keyDown)
+          startGame(streak,wordList)
+        }
+        if (guess.length == secret.length) {
+          if (guess == secret) {
+            alert("You got it, awesome!")
+            display.innerHTML = ""
+            document.removeEventListener("keydown", keyDown)
+            startGame(streak+1,wordList)
+          } else {
+            alert("Sorry, that's not it...")
+          }
+        }
+      })
+      clearButton = document.getElementById("clear")
+      clearButton.addEventListener("click", function keyboardClick(event) {
+        for (j = 0; j < puzzle.length; j++) {
+          guessCell = document.getElementById("guess-"+j.toString())
+          guessCell.innerText = ""
+        }
+        pos = 0
+        guess = ""
+        giveup = 0
+        for (j = 0; j < puzzle.length; j++) {
+          puzzleCell = document.getElementById("puzzle-"+j.toString())
+          puzzleCell.className = "cell"
+        }
+        submitButton.classList.add("grey")
+        clearButton.classList.add("grey")
+      })
+      shuffleButton = document.getElementById("shuffle")
+      shuffleButton.addEventListener("click", function keyboardClick(event) {
+        clearButton.click()
+        puzzle = shuffle(secret)
+        for (j = 0; j < puzzle.length; j++) {
+          puzzleCell = document.getElementById("puzzle-"+j.toString())
+          puzzleCell.innerText = puzzle[j]
+        }
+      })
+      for(j = 0; j < puzzle.length; j++) {
+        let puzzleCell = document.getElementById("puzzle-"+j.toString())
+        puzzleCell.addEventListener("click", function keyboardClick(event) {
+          if(guess.length < secret.length && !(puzzleCell.classList.contains("grey"))) {
+            guessCell = document.getElementById("guess-"+pos.toString())
+            guessCell.innerText = puzzleCell.innerText
+            guess += puzzleCell.innerText
+            pos += 1
+            giveup = 0
+            if (pos == 1) {
+              clearButton.classList.remove("grey")
+            }
+            if (pos + 1 == secret.length) {
+              submitButton.classList.remove("grey")
+            }
+            puzzleCell.classList.add("grey")
+          }
+        })
+      }
+
+      // set up event listeners for keyboard
+      document.addEventListener("keydown", keyDown = function(event) {
+        if (event.key == "Backspace") {
+          clearButton.click()
+        } else if (event.key == "Enter") {
+          submitButton.click()
+        } else if (event.key == "Escape") {
+          shuffleButton.click()
+        } else if (puzzle.includes(event.key.toUpperCase())) {
+          for (j = 0; j < puzzle.length; j++) {
+            let testCell = document.getElementById("puzzle-"+j.toString())
+            if (testCell.innerText == event.key.toUpperCase() && !(testCell.classList.contains("grey"))) {
+              testCell.click()
+              break
+            }
+          }
+        }
+      })
+
+    }
+  </script>
+</html>
